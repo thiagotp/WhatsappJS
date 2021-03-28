@@ -3,6 +3,7 @@ class WhatsAppController {
     constructor() {
         this.elementsPrototype();
         this.loadElements();
+        this.initEvents();
     }
 
     loadElements() {
@@ -45,25 +46,94 @@ class WhatsAppController {
             return this
         }
 
-        Element.prototype.addClass = function(name){
+        Element.prototype.addClass = function (name) {
             this.classList.add(name)
             return this
         }
 
-        Element.prototype.removeClass = function(name){
+        Element.prototype.removeClass = function (name) {
             this.classList.remove(name)
             return this
         }
 
-        Element.prototype.toggleClass = function(name){
+        Element.prototype.toggleClass = function (name) {
             this.classList.toggle(name)
             return this
         }
 
-        Element.prototype.hasClass = function(name){
+        Element.prototype.hasClass = function (name) {
             return this.classList.contains(name)
         }
 
+        HTMLFormElement.prototype.getForm = function () {
+            return new FormData(this)
+        }
+
+        HTMLFormElement.prototype.toJSON = function () {
+            let json = {}
+            this.getForm().forEach((value, key) => {
+                json[key] = value
+            })
+            return json
+        }
+
     }//Método para facilitar a alteração de um objetos com prototype. 
+
+    initEvents() {
+
+        this.el.myPhoto.on("click", e => {
+            this.closeAllLeftPanel()
+            this.el.panelEditProfile.show()
+            setTimeout(() => {
+                this.el.panelEditProfile.addClass('open');
+            }, 100)
+        })
+
+        this.el.btnNewContact.on("click", e => {
+            this.closeAllLeftPanel()
+            this.el.panelAddContact.show()
+            setTimeout(() => {
+                this.el.panelAddContact.addClass('open');;
+            }, 100)
+        })
+
+        this.el.btnClosePanelEditProfile.on("click", e => {
+            this.el.panelEditProfile.removeClass('open');
+        })
+
+        this.el.btnClosePanelAddContact.on("click", e => {
+            this.el.panelAddContact.removeClass('open');
+        })
+
+        this.el.photoContainerEditProfile.on("click", e => {
+            this.el.inputProfilePhoto.click()
+        })
+
+        this.el.inputNamePanelEditProfile.on("keypress", e => {
+
+            if (e.key === 'Enter') {
+                e.preventDefault()
+                this.el.btnSavePanelEditProfile.click()
+            }
+
+            this.el.btnSavePanelEditProfile.on("click", e => {
+                console.log(this.el.inputNamePanelEditProfile.innerHTML)
+            })
+
+        })
+
+        this.el.formPanelAddContact.on('submit', e=>{
+            e.preventDefault()
+            let formData = new FormData(this.el.formPanelAddContact)
+        })
+
+    }//Método para configurar algumas ações do nosso projeto (ex: ações de botões)
+
+    closeAllLeftPanel() {
+
+        this.el.panelEditProfile.hide()
+        this.el.panelAddContact.hide()
+
+    }//Método que esconde algumas interfaces de painéis para melhor visualização 
 
 }
