@@ -122,9 +122,40 @@ class WhatsAppController {
 
         })
 
-        this.el.formPanelAddContact.on('submit', e=>{
+        this.el.formPanelAddContact.on('submit', e => {
             e.preventDefault()
             let formData = new FormData(this.el.formPanelAddContact)
+        })
+
+        this.el.contactsMessagesList.querySelectorAll('.contact-item').forEach(item => {
+            item.on('click', e => {
+                this.el.home.hide()
+                this.el.main.css({
+                    display: 'flex'
+                })
+            })
+        })
+
+        this.el.btnAttach.on('click', e => {
+            e.stopPropagation()
+            this.el.menuAttach.addClass('open')
+            document.addEventListener('click', this.closeMenuAttach.bind(this))
+        })
+
+        this.el.btnAttachPhoto.on('click', e => {
+            console.log('photo')
+        })
+
+        this.el.btnAttachContact.on('click', e => {
+            console.log('contact')
+        })
+
+        this.el.btnAttachCamera.on('click', e => {
+            console.log('camera')
+        })
+
+        this.el.btnAttachDocument.on('click', e => {
+            console.log('document')
         })
 
     }//Método para configurar algumas ações do nosso projeto (ex: ações de botões)
@@ -135,5 +166,12 @@ class WhatsAppController {
         this.el.panelAddContact.hide()
 
     }//Método que esconde algumas interfaces de painéis para melhor visualização 
+
+    closeMenuAttach(e) {
+
+        document.removeEventListener('click', this.closeMenuAttach)
+        this.el.menuAttach.removeClass('open')
+
+    }//Método utilizado para que ao click em qualquer lugar do documento o menu Attach seja ocultado
 
 }
