@@ -157,7 +157,7 @@ class WhatsAppController {
             this.el.modalContacts.show()
         })
 
-        this.el.btnCloseModalContacts.on('click', e => { 
+        this.el.btnCloseModalContacts.on('click', e => {
             this.el.modalContacts.hide()
         })
 
@@ -167,7 +167,6 @@ class WhatsAppController {
             this.el.panelCamera.css({
                 height: 'calc(100%)'
             })
-
         })
 
         this.el.btnClosePanelCamera.on('click', e => {
@@ -184,6 +183,20 @@ class WhatsAppController {
             console.log('send document')
         })
 
+        this.el.btnSendMicrophone.on('click', e => {
+            this.el.recordMicrophone.show()
+            this.el.btnSendMicrophone.hide()
+            this.startRecordTime()
+        })
+
+        this.el.btnCancelMicrophone.on('click', e => {
+            this.closeRecordMicrophone()
+        })
+
+        this.el.btnFinishMicrophone.on('click', e => {
+            this.closeRecordMicrophone()
+        })
+
         this.el.btnTakePicture.on('click', e => {
             console.log("FOTO")
         })
@@ -197,6 +210,25 @@ class WhatsAppController {
         })
 
     }//Método para configurar algumas ações do nosso projeto (ex: ações de botões)
+
+    startRecordTime() {
+
+        let start = Date.now()
+
+        this._recordMicrophoneInterval = setInterval(()=>{
+            let time = (Date.now() - start)
+            this.el.recordMicrophoneTimer.innerHTML = Format.toTime(time)
+        }, 100)
+
+    }//Método para formatar a duração da gravação do microfone
+
+    closeRecordMicrophone() {
+
+        this.el.recordMicrophone.hide()
+        this.el.btnSendMicrophone.show()
+        clearInterval(this._recordMicrophoneInterval)
+
+    }//Método para fechar o display do microfone
 
     closeAllLeftPanel() {
 
