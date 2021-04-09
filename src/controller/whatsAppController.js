@@ -1,5 +1,5 @@
-import {Format} from './../util/format'
-import {CameraController} from './cameraController'
+import { Format } from './../util/format'
+import { CameraController } from './cameraController'
 
 export class WhatsAppController {
 
@@ -203,7 +203,25 @@ export class WhatsAppController {
         })
 
         this.el.btnTakePicture.on('click', e => {
-            console.log("FOTO")
+            let dataUrl = this._camera.takePicture()
+            this.el.pictureCamera.src = dataUrl
+            this.el.pictureCamera.show()
+            this.el.videoCamera.hide()
+            this.el.btnReshootPanelCamera.show()
+            this.el.containerTakePicture.hide()
+            this.el.containerSendPicture.show()
+        })
+
+        this.el.btnReshootPanelCamera.on('click', e => {
+            this.el.pictureCamera.hide()
+            this.el.videoCamera.show()
+            this.el.btnReshootPanelCamera.hide()
+            this.el.containerTakePicture.show()
+            this.el.containerSendPicture.hide()
+        })
+
+        this.el.btnSendPicture.on('click', e => {
+            console.log(this.el.pictureCamera.src)
         })
 
         this.el.btnAttachDocument.on('click', e => {
@@ -256,7 +274,7 @@ export class WhatsAppController {
 
                 let cursor = window.getSelection()
 
-                if(!cursor.focusNode || !cursor.focusNode.id == 'input-text'){
+                if (!cursor.focusNode || !cursor.focusNode.id == 'input-text') {
                     this.el.inputText.focus()
                     cursor = window.getSelection()
                 }
