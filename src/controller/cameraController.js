@@ -11,13 +11,13 @@ export class CameraController {
         }).catch(err => {
             console.error(err)
         })
-    }
+    }//Método para ligar a câmera 
 
     stop() {
         this._stream.getTracks().forEach(track => {
             track.stop()
         })
-    }
+    }//Método para parar a utilização da câmera quando a mesma for fechada
 
     takePicture(mimeType = 'image/png') {
 
@@ -31,6 +31,6 @@ export class CameraController {
 
         return canvas.toDataURL(mimeType)
 
-    }
+    }//Método para capturar a imagem em base 64 do vídeo
 
 }
